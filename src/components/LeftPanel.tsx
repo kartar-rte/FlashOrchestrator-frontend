@@ -1,0 +1,77 @@
+import { MessageSquare, Settings, FolderOpen, BarChart3 } from 'lucide-react';
+import { Task } from '../services/api';
+import ChatThreads from './ChatThreads';
+
+interface LeftPanelProps {
+  tasks: Task[];
+  selectedTaskId: string | null;
+  onSelectTask: (taskId: string | null) => void;
+  currentView: 'threads' | 'settings' | 'workspace' | 'observability';
+  onViewChange: (view: 'threads' | 'settings' | 'workspace' | 'observability') => void;
+  onNewThread: () => void;
+}
+
+export default function LeftPanel({
+  tasks,
+  selectedTaskId,
+  onSelectTask,
+  currentView,
+  onViewChange,
+  onNewThread,
+}: LeftPanelProps) {
+  const menuItems = [
+    { id: 'threads' as const, icon: MessageSquare, label: 'Chat Threads' },
+    { id: 'settings' as const, icon: Settings, label: 'Orchestrator Settings' },
+    { id: 'workspace' as const, icon: FolderOpen, label: 'Workspace' },
+    { id: 'observability' as const, icon: BarChart3, label: 'Observability' },
+  ];
+
+  return (
+    <div className="w-80 bg-gray-50 border-r border-gray-200 flex flex-col">
+      {/* Header */}
+      <div className="p-4 border-b border-gray-200 bg-white">
+        <h1 className="text-xl font-semibold text-gray-900">Orchestrator</h1>
+      </div>
+
+      {/* Navigation Menu */}
+      <div className="p-2 border-b border-gray-200 bg-white">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = currentView === item.id;
+          return (
+            <button
+              key={item.id}
+              onClick={() => onViewChange(item.id)}
+              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg mb-1 transition-colors ${
+                isActive
+                  ? 'bg-primary-50 text-primary-700 font-medium'
+                  : 'text-gray-700 hover:bg-gray-100'
+              }`}
+            >
+              <Icon className="w-5 h-5" />
+              <span className="text-sm">{item.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content Area - Only show ChatThreads in left panel */}
+      <div className="flex-1 overflow-hidden">
+        {currentView === 'threads' && (
+          <ChatThreads
+            tasks={tasks}
+            selectedTaskId={selectedTaskId}
+            onSelectTask={onSelectTask}
+            onNewThread={onNewThread}
+          />
+        )}
+        {currentView !== 'threads' && (
+          <div className="p-4 text-center text-gray-500 text-sm">
+            Select a view to see details in the center panel
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
