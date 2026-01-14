@@ -26,7 +26,7 @@ npm install
 npm run dev
 ```
 
-Access at: http://localhost:5173
+Access at: http://localhost:5174
 
 ## Production Build
 
@@ -69,7 +69,7 @@ pm2 start npm --name "vibecode-frontend" -- run start
 
 The frontend will be served through Nginx reverse proxy:
 - Nginx listens on port 80/443
-- Proxies to localhost:5173
+- Proxies to localhost:5174
 - Domain: vibecode.rtesoftwares.com
 
 ## Notes
