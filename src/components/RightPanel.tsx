@@ -914,27 +914,40 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
           </div>
           <div className="p-5 space-y-5">
             {/* Text content */}
-            <div className="prose prose-sm max-w-none">
+            <div className="prose prose-sm max-w-none overflow-hidden">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 components={{
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '');
                     return !inline && match ? (
-                      <SyntaxHighlighter
-                        style={vscDarkPlus}
-                        language={match[1]}
-                        PreTag="div"
-                        {...props}
-                      >
-                        {String(children).replace(/\n$/, '')}
-                      </SyntaxHighlighter>
+                      <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
+                        <SyntaxHighlighter
+                          style={vscDarkPlus}
+                          language={match[1]}
+                          PreTag="div"
+                          wrapLines={true}
+                          wrapLongLines={true}
+                          customStyle={{
+                            margin: 0,
+                            maxWidth: '100%',
+                            overflowX: 'auto',
+                            fontSize: '0.75rem',
+                          }}
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      </div>
                     ) : (
                       <code className={className} {...props}>
                         {children}
                       </code>
                     );
                   },
+                  pre: ({ node, ...props }) => (
+                    <pre className="overflow-x-auto w-full" style={{ maxWidth: '100%' }} {...props} />
+                  ),
                 }}
               >
                 {item.content}
@@ -956,28 +969,41 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
   // Agent message (default)
   return (
     <div className="flex justify-start">
-      <div className="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 max-w-[85%]">
-        <div className="prose prose-sm max-w-none">
+      <div className="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 max-w-[85%] overflow-hidden">
+        <div className="prose prose-sm max-w-none overflow-hidden">
           <ReactMarkdown
             rehypePlugins={[rehypeRaw]}
             components={{
               code({ node, inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || '');
                 return !inline && match ? (
-                  <SyntaxHighlighter
-                    style={vscDarkPlus}
-                    language={match[1]}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
+                  <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
+                    <SyntaxHighlighter
+                      style={vscDarkPlus}
+                      language={match[1]}
+                      PreTag="div"
+                      wrapLines={true}
+                      wrapLongLines={true}
+                      customStyle={{
+                        margin: 0,
+                        maxWidth: '100%',
+                        overflowX: 'auto',
+                        fontSize: '0.75rem',
+                      }}
+                      {...props}
+                    >
+                      {String(children).replace(/\n$/, '')}
+                    </SyntaxHighlighter>
+                  </div>
                 ) : (
                   <code className={className} {...props}>
                     {children}
                   </code>
                 );
               },
+              pre: ({ node, ...props }) => (
+                <pre className="overflow-x-auto w-full" style={{ maxWidth: '100%' }} {...props} />
+              ),
             }}
           >
             {item.content}

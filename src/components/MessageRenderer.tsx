@@ -85,17 +85,23 @@ function SQLQueryBlock({ query }: { query: string }) {
 
             {isExpanded && (
                 <div className="p-4">
-                    <SyntaxHighlighter
-                        language="sql"
-                        style={vscDarkPlus}
-                        customStyle={{
-                            margin: 0,
-                            borderRadius: '0.375rem',
-                            fontSize: '0.875rem',
-                        }}
-                    >
-                        {query}
-                    </SyntaxHighlighter>
+                    <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
+                        <SyntaxHighlighter
+                            language="sql"
+                            style={vscDarkPlus}
+                            wrapLines={true}
+                            wrapLongLines={true}
+                            customStyle={{
+                                margin: 0,
+                                borderRadius: '0.375rem',
+                                fontSize: '0.75rem',
+                                maxWidth: '100%',
+                                overflowX: 'auto',
+                            }}
+                        >
+                            {query}
+                        </SyntaxHighlighter>
+                    </div>
                 </div>
             )}
         </div>
@@ -153,22 +159,26 @@ function TextMessageBlock({ text }: { text: string }) {
 
     return (
         <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-            <div className="p-4 overflow-x-auto">
-                <div className="prose prose-sm max-w-none break-words">
+            <div className="p-4">
+                <div className="prose prose-sm max-w-none break-words overflow-hidden">
                     <ReactMarkdown
                         rehypePlugins={[rehypeRaw]}
                         components={{
                             code({ node, inline, className, children, ...props }: any) {
                                 const match = /language-(\w+)/.exec(className || '');
                                 return !inline && match ? (
-                                    <div className="overflow-x-auto max-w-full">
+                                    <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
                                         <SyntaxHighlighter
                                             style={vscDarkPlus}
                                             language={match[1]}
                                             PreTag="div"
+                                            wrapLines={true}
+                                            wrapLongLines={true}
                                             customStyle={{
+                                                margin: 0,
                                                 maxWidth: '100%',
                                                 overflowX: 'auto',
+                                                fontSize: '0.75rem',
                                             }}
                                             {...props}
                                         >
@@ -182,7 +192,7 @@ function TextMessageBlock({ text }: { text: string }) {
                                 );
                             },
                             pre: ({ node, ...props }) => (
-                                <pre className="overflow-x-auto max-w-full" {...props} />
+                                <pre className="overflow-x-auto w-full" style={{ maxWidth: '100%' }} {...props} />
                             ),
                         }}
                     >
