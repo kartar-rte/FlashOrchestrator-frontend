@@ -914,7 +914,7 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
           </div>
           <div className="p-5 space-y-5">
             {/* Text content */}
-            <div className="prose prose-sm max-w-none">
+            {/* <div className="prose prose-sm max-w-none">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 components={{
@@ -939,7 +939,7 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
               >
                 {item.content}
               </ReactMarkdown>
-            </div>
+            </div> */}
             
             {/* Visualization if available */}
             {hasVisualization && (

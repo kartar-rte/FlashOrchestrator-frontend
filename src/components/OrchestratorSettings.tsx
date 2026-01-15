@@ -18,7 +18,7 @@ function loadConfigFromStorage(): Partial<WorkspaceConfig> {
   }
   return {
     apiProvider: 'openai',
-    apiModelId: 'gpt-4',
+    apiModelId: 'gpt-4o',
     workspacePath: '',
   };
 }
@@ -42,7 +42,7 @@ export default function OrchestratorSettings() {
   const savedConfig = loadConfigFromStorage();
   const [config, setConfig] = useState<Partial<WorkspaceConfig>>(() => savedConfig || {
     apiProvider: 'openai',
-    apiModelId: 'gpt-4',
+    apiModelId: 'gpt-4o',
     workspacePath: '',
   });
   const [savedApiKey, setSavedApiKey] = useState<string | undefined>(savedConfig?.apiKey);
@@ -250,13 +250,15 @@ export default function OrchestratorSettings() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
             />
             <p className="text-xs text-gray-500 mt-1">
-              Recommended models with large context windows:
+              Default: <code className="bg-gray-100 px-1 rounded">gpt-4o</code> (recommended)
+              <br />
+              Other recommended models with large context windows:
               <br />
               • OpenAI: <code className="bg-gray-100 px-1 rounded">gpt-4o</code> (128K), <code className="bg-gray-100 px-1 rounded">gpt-4-turbo</code> (128K)
               <br />
               • Anthropic: <code className="bg-gray-100 px-1 rounded">claude-3-5-sonnet-20241022</code> (200K)
               <br />
-              ⚠️ Avoid <code className="bg-gray-100 px-1 rounded">gpt-4</code> (8K limit) - system prompt alone exceeds this
+              ⚠️ Avoid old <code className="bg-gray-100 px-1 rounded">gpt-4</code> (8K limit) - system prompt alone exceeds this
             </p>
           </div>
 

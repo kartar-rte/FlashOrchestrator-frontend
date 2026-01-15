@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight, MessageCircle, Bot, Info } from 'lucide-react';
-import { parseTaskMessage, truncateText } from '../utils/messageParser';
+import { parseTaskMessage, truncateText, sanitizeForMarkdown } from '../utils/messageParser';
 import ReactMarkdown from 'react-markdown';
 
 interface CleanMessageDisplayProps {
@@ -47,9 +47,9 @@ export default function CleanMessageDisplay({ content, type, timestamp }: CleanM
             // For user messages with instructions, show clean question
             <div className="whitespace-pre-wrap">{parsed.userQuestion}</div>
           ) : (
-            // For agent messages or simple user messages, show full content
+            // For agent messages or simple user messages, sanitize and show content
             <ReactMarkdown className="prose prose-sm max-w-none">
-              {content}
+              {sanitizeForMarkdown(content)}
             </ReactMarkdown>
           )}
         </div>

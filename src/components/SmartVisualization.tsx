@@ -26,23 +26,29 @@ export default function SmartVisualization({ data, autoAnalyze = true }: SmartVi
 
   const parseData = () => {
     try {
+      // Clean the data first - remove any leading/trailing whitespace
+      const cleanedData = data.trim();
+      
       // Try to parse as structured JSON
-      const parsed = JSON.parse(data);
+      const parsed = JSON.parse(cleanedData);
       
       if (parsed.format === 'structured_result' && Array.isArray(parsed.content)) {
         // Valid structured format
+        console.log('[SmartVisualization] Parsed structured result with', parsed.content.length, 'blocks');
         setContentBlocks(parsed.content);
         setIsStructured(true);
       } else {
         // Not structured format, treat as plain markdown
+        console.log('[SmartVisualization] Not structured format, treating as markdown');
         setContentBlocks([{
           type: 'markdown',
-          content: data
+          content: cleanedData
         }]);
         setIsStructured(false);
       }
     } catch (e) {
       // Not JSON or invalid JSON - treat as plain markdown
+      console.log('[SmartVisualization] JSON parse error, treating as markdown:', e);
       setContentBlocks([{
         type: 'markdown',
         content: data

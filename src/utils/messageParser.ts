@@ -41,7 +41,7 @@ export function parseTaskMessage(content: string): ParsedMessage {
 function cleanText(text: string): string {
   return text
     .replace(/\s+/g, ' ') // Replace multiple spaces with single space
-    .replace(/<[^>]+>/g, '') // Remove any remaining HTML/XML tags
+    .replace(/<\/?[^>]+(>|$)/g, '') // Remove ALL HTML/XML tags
     .trim();
 }
 
@@ -61,4 +61,20 @@ export function hasTechnicalDetails(content: string): boolean {
          content.includes('<environment_details>') ||
          content.includes('# Visible Files') ||
          content.includes('# Current Mode');
+}
+
+/**
+ * Sanitize content for safe rendering in ReactMarkdown
+ * Removes XML tags that React doesn't recognize
+ */
+export function sanitizeForMarkdown(content: string): string {
+  return content
+    .replace(/<task>/g, '**Task:**\n')
+    .replace(/<\/task>/g, '\n')
+    .replace(/<task_instructions>[\s\S]*?<\/task_instructions>/g, '') // Remove instructions block
+    .replace(/<environment_details>[\s\S]*?<\/environment_details>/g, '') // Remove environment block
+    .replace(/<slug>|<\/slug>/g, '')
+    .replace(/<name>|<\/name>/g, '')
+    .replace(/<model>|<\/model>/g, '')
+    .replace(/<[^>]+>/g, ''); // Remove any other XML tags
 }
