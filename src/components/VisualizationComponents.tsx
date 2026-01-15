@@ -363,10 +363,10 @@ export function TextVisualization({ config }: VisualizationProps) {
             rehypePlugins={[rehypeRaw]}
             components={{
               pre: ({ node, ...props }) => (
-                <pre className="overflow-x-auto max-w-full" {...props} />
+                <pre className="overflow-x-auto max-w-full bg-gray-100 p-2 rounded text-xs" {...props} />
               ),
               code: ({ node, inline, ...props }) => (
-                <code className={inline ? '' : 'block overflow-x-auto max-w-full'} {...props} />
+                <code className={inline ? 'bg-gray-100 px-1 rounded text-xs' : 'block overflow-x-auto max-w-full bg-gray-100 p-2 rounded text-xs'} {...props} />
               ),
             }}
           >

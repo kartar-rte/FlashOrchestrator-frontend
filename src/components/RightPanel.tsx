@@ -920,33 +920,39 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
                 components={{
                   code({ node, inline, className, children, ...props }) {
                     const match = /language-(\w+)/.exec(className || '');
-                    return !inline && match ? (
-                      <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
-                        <SyntaxHighlighter
-                          style={vscDarkPlus}
-                          language={match[1]}
-                          PreTag="div"
-                          wrapLines={true}
-                          wrapLongLines={true}
-                          customStyle={{
-                            margin: 0,
-                            maxWidth: '100%',
-                            overflowX: 'auto',
-                            fontSize: '0.75rem',
-                          }}
-                          {...props}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
-                      </div>
-                    ) : (
+                    // Commented out SyntaxHighlighter - just show plain code
+                    // return !inline && match ? (
+                    //   <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
+                    //     <SyntaxHighlighter
+                    //       style={vscDarkPlus}
+                    //       language={match[1]}
+                    //       PreTag="div"
+                    //       wrapLines={true}
+                    //       wrapLongLines={true}
+                    //       customStyle={{
+                    //         margin: 0,
+                    //         maxWidth: '100%',
+                    //         overflowX: 'auto',
+                    //         fontSize: '0.75rem',
+                    //       }}
+                    //       {...props}
+                    //     >
+                    //       {String(children).replace(/\n$/, '')}
+                    //     </SyntaxHighlighter>
+                    //   </div>
+                    // ) : (
+                    //   <code className={className} {...props}>
+                    //     {children}
+                    //   </code>
+                    // );
+                    return (
                       <code className={className} {...props}>
                         {children}
                       </code>
                     );
                   },
                   pre: ({ node, ...props }) => (
-                    <pre className="overflow-x-auto w-full" style={{ maxWidth: '100%' }} {...props} />
+                    <pre className="overflow-x-auto w-full bg-gray-100 p-2 rounded text-xs" style={{ maxWidth: '100%' }} {...props} />
                   ),
                 }}
               >
@@ -976,33 +982,39 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
             components={{
               code({ node, inline, className, children, ...props }) {
                 const match = /language-(\w+)/.exec(className || '');
-                return !inline && match ? (
-                  <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
-                    <SyntaxHighlighter
-                      style={vscDarkPlus}
-                      language={match[1]}
-                      PreTag="div"
-                      wrapLines={true}
-                      wrapLongLines={true}
-                      customStyle={{
-                        margin: 0,
-                        maxWidth: '100%',
-                        overflowX: 'auto',
-                        fontSize: '0.75rem',
-                      }}
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, '')}
-                    </SyntaxHighlighter>
-                  </div>
-                ) : (
+                // Commented out SyntaxHighlighter - just show plain code
+                // return !inline && match ? (
+                //   <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
+                //     <SyntaxHighlighter
+                //       style={vscDarkPlus}
+                //       language={match[1]}
+                //       PreTag="div"
+                //       wrapLines={true}
+                //       wrapLongLines={true}
+                //       customStyle={{
+                //         margin: 0,
+                //         maxWidth: '100%',
+                //         overflowX: 'auto',
+                //         fontSize: '0.75rem',
+                //       }}
+                //       {...props}
+                //     >
+                //       {String(children).replace(/\n$/, '')}
+                //     </SyntaxHighlighter>
+                //   </div>
+                // ) : (
+                //   <code className={className} {...props}>
+                //     {children}
+                //   </code>
+                // );
+                return (
                   <code className={className} {...props}>
                     {children}
                   </code>
                 );
               },
               pre: ({ node, ...props }) => (
-                <pre className="overflow-x-auto w-full" style={{ maxWidth: '100%' }} {...props} />
+                <pre className="overflow-x-auto w-full bg-gray-100 p-2 rounded text-xs" style={{ maxWidth: '100%' }} {...props} />
               ),
             }}
           >
