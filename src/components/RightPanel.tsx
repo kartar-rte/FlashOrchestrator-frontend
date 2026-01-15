@@ -56,13 +56,13 @@ export default function RightPanel({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   
-  // #region agent log
+//   // #region agent log
   useEffect(() => {
     if (taskId) {
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:52',message:'RightPanel props received',data:{taskId,hasLoadedHistory:loadedHistory[taskId] !== undefined,loadedHistoryCount:loadedHistory[taskId]?.length || 0,isLoading:loadingHistory[taskId] === true,messagesCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:52',message:'RightPanel props received',data:{taskId,hasLoadedHistory:loadedHistory[taskId] !== undefined,loadedHistoryCount:loadedHistory[taskId]?.length || 0,isLoading:loadingHistory[taskId] === true,messagesCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
     }
   }, [taskId, loadedHistory, loadingHistory, messages.length]);
-  // #endregion
+//   // #endregion
 
   const useCases = loadUseCases();
   const currentUseCase = getUseCaseById(selectedUseCaseId) || useCases[0];
@@ -278,9 +278,9 @@ export default function RightPanel({
 
   // Create a unified chat timeline from messages, tool uses, logs, and events
   const chatItems = useMemo(() => {
-    // #region agent log
-    fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:268',message:'chatItems computation started',data:{taskId,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-    // #endregion
+//     // #region agent log
+//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:268',message:'chatItems computation started',data:{taskId,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+//     // #endregion
     
     const items: ChatItem[] = [];
     const currentTaskId = taskId || 'unknown';
@@ -304,9 +304,9 @@ export default function RightPanel({
       })
       : messages;
     
-    // #region agent log
-    fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:285',message:'Messages filtered for task',data:{taskId,taskMessagesCount:taskMessages.length,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-    // #endregion
+//     // #region agent log
+//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:285',message:'Messages filtered for task',data:{taskId,taskMessagesCount:taskMessages.length,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+//     // #endregion
 
     // Separate completion_result messages to extract final response
     // Check multiple possible structures: msg.data.message.say, msg.data.message.ask
@@ -589,9 +589,9 @@ export default function RightPanel({
       return (priority[a.type] || 99) - (priority[b.type] || 99);
     });
 
-    // #region agent log
-    fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:520',message:'chatItems computed',data:{taskId,totalItems:filteredItems.length,userItems:filteredItems.filter(i => i.type === 'user').length,agentItems:filteredItems.filter(i => i.type === 'agent').length,finalItems:filteredItems.filter(i => i.type === 'final').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
-    // #endregion
+//     // #region agent log
+//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:520',message:'chatItems computed',data:{taskId,totalItems:filteredItems.length,userItems:filteredItems.filter(i => i.type === 'user').length,agentItems:filteredItems.filter(i => i.type === 'agent').length,finalItems:filteredItems.filter(i => i.type === 'final').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+//     // #endregion
 
     return filteredItems;
   }, [taskId, messages, toolUses, logs, events, taskProgress]);
@@ -650,15 +650,15 @@ export default function RightPanel({
                 const hasLoadedHistory = taskId && loadedHistory[taskId] !== undefined;
                 const hasWebSocketMessages = messages.some(msg => msg.taskId === taskId);
                 
-                // #region agent log
-                fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:637',message:'Empty chatItems - determining UI state',data:{taskId,isLoading,hasLoadedHistory,hasWebSocketMessages,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-                // #endregion
+//                 // #region agent log
+//                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:637',message:'Empty chatItems - determining UI state',data:{taskId,isLoading,hasLoadedHistory,hasWebSocketMessages,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+//                 // #endregion
                 
                 // If we're loading history, show loading state
                 if (isLoading) {
-                  // #region agent log
-                  fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:644',message:'Showing loading state',data:{taskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-                  // #endregion
+//                   // #region agent log
+//                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:644',message:'Showing loading state',data:{taskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+//                   // #endregion
                   return (
                     <div className="text-center py-8">
                       <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto mb-2" />
@@ -671,9 +671,9 @@ export default function RightPanel({
                 
                 // If history was loaded but is empty, show appropriate message
                 if (hasLoadedHistory && !hasWebSocketMessages) {
-                  // #region agent log
-                  fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:655',message:'Showing empty history message',data:{taskId,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-                  // #endregion
+//                   // #region agent log
+//                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:655',message:'Showing empty history message',data:{taskId,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+//                   // #endregion
                   return (
                     <div className="text-center py-8">
                       <p className="text-gray-500 mb-2">
@@ -687,9 +687,9 @@ export default function RightPanel({
                 }
                 
                 // Otherwise, show processing state (for active tasks)
-                // #region agent log
-                fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:670',message:'Showing processing state',data:{taskId,hasLoadedHistory,hasWebSocketMessages},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
-                // #endregion
+//                 // #region agent log
+//                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:670',message:'Showing processing state',data:{taskId,hasLoadedHistory,hasWebSocketMessages},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+//                 // #endregion
                 return (
                   <div className="text-center py-8">
                     <Loader2 className="w-6 h-6 animate-spin text-gray-400 mx-auto mb-2" />
