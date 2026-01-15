@@ -55,11 +55,11 @@ export default function RightPanel({
   const [isTaskProgressExpanded, setIsTaskProgressExpanded] = useState(true);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
-  
+
   // #region agent log
   useEffect(() => {
     if (taskId) {
-//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:52',message:'RightPanel props received',data:{taskId,hasLoadedHistory:loadedHistory[taskId] !== undefined,loadedHistoryCount:loadedHistory[taskId]?.length || 0,isLoading:loadingHistory[taskId] === true,messagesCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+      //       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:52',message:'RightPanel props received',data:{taskId,hasLoadedHistory:loadedHistory[taskId] !== undefined,loadedHistoryCount:loadedHistory[taskId]?.length || 0,isLoading:loadingHistory[taskId] === true,messagesCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
     }
   }, [taskId, loadedHistory, loadingHistory, messages.length]);
   // #endregion
@@ -206,15 +206,15 @@ export default function RightPanel({
   // Extract todo list from messages for unified task progress
   const taskProgress = useMemo(() => {
     if (!taskId) return null;
-    
+
     const taskMessages = messages.filter((msg) => msg.taskId === taskId || !msg.taskId);
-    
+
     // Find the most recent updateTodoList message
     // Check both tool messages and regular messages that might contain todo list updates
     for (let i = taskMessages.length - 1; i >= 0; i--) {
       const msg = taskMessages[i];
       const messageData = msg.data?.message || msg.data;
-      
+
       // Check for tool message with updateTodoList
       if (messageData?.say === 'tool' && messageData?.text) {
         try {
@@ -226,7 +226,7 @@ export default function RightPanel({
           // Not JSON, skip
         }
       }
-      
+
       // Also check for text messages that might contain todo list in XML format
       if (messageData?.say === 'text' && messageData?.text) {
         try {
@@ -243,7 +243,7 @@ export default function RightPanel({
                 const trimmed = line.trim();
                 let status: 'pending' | 'in_progress' | 'completed' = 'pending';
                 let content = trimmed;
-                
+
                 if (trimmed.startsWith('[x]')) {
                   status = 'completed';
                   content = trimmed.substring(3).trim();
@@ -254,14 +254,14 @@ export default function RightPanel({
                   status = 'pending';
                   content = trimmed.substring(3).trim();
                 }
-                
+
                 return {
                   id: `todo-${idx}`,
                   content: content,
                   status: status,
                 };
               });
-              
+
               if (todos.length > 0) {
                 return todos;
               }
@@ -272,16 +272,16 @@ export default function RightPanel({
         }
       }
     }
-    
+
     return null;
   }, [taskId, messages]);
 
   // Create a unified chat timeline from messages, tool uses, logs, and events
   const chatItems = useMemo(() => {
     // #region agent log
-//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:268',message:'chatItems computation started',data:{taskId,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    //     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:268',message:'chatItems computation started',data:{taskId,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
     // #endregion
-    
+
     const items: ChatItem[] = [];
     const currentTaskId = taskId || 'unknown';
 
@@ -303,9 +303,9 @@ export default function RightPanel({
         return true; // Don't filter completion_result yet - we need to extract response from it
       })
       : messages;
-    
+
     // #region agent log
-//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:285',message:'Messages filtered for task',data:{taskId,taskMessagesCount:taskMessages.length,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    //     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:285',message:'Messages filtered for task',data:{taskId,taskMessagesCount:taskMessages.length,totalMessages:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
     // #endregion
 
     // Separate completion_result messages to extract final response
@@ -590,7 +590,7 @@ export default function RightPanel({
     });
 
     // #region agent log
-//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:520',message:'chatItems computed',data:{taskId,totalItems:filteredItems.length,userItems:filteredItems.filter(i => i.type === 'user').length,agentItems:filteredItems.filter(i => i.type === 'agent').length,finalItems:filteredItems.filter(i => i.type === 'final').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    //     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:520',message:'chatItems computed',data:{taskId,totalItems:filteredItems.length,userItems:filteredItems.filter(i => i.type === 'user').length,agentItems:filteredItems.filter(i => i.type === 'agent').length,finalItems:filteredItems.filter(i => i.type === 'final').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
     // #endregion
 
     return filteredItems;
@@ -649,15 +649,15 @@ export default function RightPanel({
                 const isLoading = loadingHistory[taskId] === true;
                 const hasLoadedHistory = taskId && loadedHistory[taskId] !== undefined;
                 const hasWebSocketMessages = messages.some(msg => msg.taskId === taskId);
-                
+
                 // #region agent log
-//                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:637',message:'Empty chatItems - determining UI state',data:{taskId,isLoading,hasLoadedHistory,hasWebSocketMessages,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+                //                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:637',message:'Empty chatItems - determining UI state',data:{taskId,isLoading,hasLoadedHistory,hasWebSocketMessages,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
                 // #endregion
-                
+
                 // If we're loading history, show loading state
                 if (isLoading) {
                   // #region agent log
-//                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:644',message:'Showing loading state',data:{taskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+                  //                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:644',message:'Showing loading state',data:{taskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
                   // #endregion
                   return (
                     <div className="text-center py-8">
@@ -668,11 +668,11 @@ export default function RightPanel({
                     </div>
                   );
                 }
-                
+
                 // If history was loaded but is empty, show appropriate message
                 if (hasLoadedHistory && !hasWebSocketMessages) {
                   // #region agent log
-//                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:655',message:'Showing empty history message',data:{taskId,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+                  //                   fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:655',message:'Showing empty history message',data:{taskId,loadedHistoryCount:loadedHistory[taskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
                   // #endregion
                   return (
                     <div className="text-center py-8">
@@ -685,10 +685,10 @@ export default function RightPanel({
                     </div>
                   );
                 }
-                
+
                 // Otherwise, show processing state (for active tasks)
                 // #region agent log
-//                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:670',message:'Showing processing state',data:{taskId,hasLoadedHistory,hasWebSocketMessages},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
+                //                 fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'RightPanel.tsx:670',message:'Showing processing state',data:{taskId,hasLoadedHistory,hasWebSocketMessages},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'F'})}).catch(()=>{});
                 // #endregion
                 return (
                   <div className="text-center py-8">
@@ -744,7 +744,7 @@ export default function RightPanel({
                       return <Circle className="w-4 h-4 text-gray-400" />;
                   }
                 };
-                
+
                 return (
                   <div key={todo.id} className="flex items-start gap-3 p-2 rounded hover:bg-gray-50 transition-colors">
                     {getStatusIcon(todo.status)}
@@ -837,6 +837,8 @@ export default function RightPanel({
 }
 
 function ChatItemBubble({ item }: { item: ChatItem }) {
+  const [isExpanded, setIsExpanded] = useState(true);
+  
   const getToolIcon = (toolName?: string) => {
     if (!toolName) return <Zap className="w-4 h-4" />;
     const name = toolName.toLowerCase();
@@ -850,8 +852,8 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
   if (item.type === 'user') {
     return (
       <div className="flex justify-end">
-        <div className="bg-primary-600 text-white rounded-lg px-4 py-2 max-w-[80%]">
-          <p className="text-sm whitespace-pre-wrap">{item.content}</p>
+        <div className="bg-primary-600 text-white rounded-lg px-4 py-2 max-w-full overflow-x-auto">
+          <p className="text-sm whitespace-pre-wrap break-words">{item.content}</p>
           <span className="text-xs text-primary-200 mt-1 block">
             {format(new Date(item.timestamp), 'HH:mm:ss')}
           </span>
@@ -887,7 +889,7 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
   if (item.type === 'final') {
     // Check if this has visualization data
     const hasVisualization = item.hasVisualization && item.content && item.content.length > 50;
-    
+
     // If it's just a simple completion notification, show it compactly
     if (!hasVisualization && (item.content === 'Task completed' || item.content === 'Task completed successfully.')) {
       return (
@@ -900,11 +902,11 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
         </div>
       );
     }
-    
+
     // Full final answer with visualization
     return (
       <div className="flex justify-start w-full">
-        <div className="bg-white rounded-lg border-2 border-green-300 shadow-lg max-w-[95%] w-full">
+        <div className="bg-white rounded-lg border-2 border-green-300 shadow-lg w-full overflow-x-auto">
           <div className="px-4 py-3 bg-gradient-to-r from-green-50 to-emerald-50 border-b border-green-200 flex items-center gap-2">
             <CheckCircle2 className="w-5 h-5 text-green-600" />
             <span className="font-semibold text-sm text-gray-900">Final Answer</span>
@@ -914,7 +916,7 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
           </div>
           <div className="p-5 space-y-5">
             {/* Text content */}
-            <div className="prose prose-sm max-w-none overflow-hidden">
+            {/* <div className="prose prose-sm max-w-none overflow-hidden">
               <ReactMarkdown
                 rehypePlugins={[rehypeRaw]}
                 components={{
@@ -958,8 +960,8 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
               >
                 {item.content}
               </ReactMarkdown>
-            </div>
-            
+            </div> */}
+
             {/* Visualization if available */}
             {hasVisualization && (
               <div className="border-t border-gray-200 pt-5">
@@ -973,57 +975,73 @@ function ChatItemBubble({ item }: { item: ChatItem }) {
   }
 
   // Agent message (default)
+  const getMessagePreview = (content: string) => {
+    // Remove markdown formatting and get first line or sentence
+    const cleanContent = content
+      .replace(/[#*`_~]/g, '') // Remove markdown symbols
+      .replace(/\n+/g, ' ') // Replace newlines with spaces
+      .trim();
+    
+    // Get first sentence or first 80 characters
+    const firstSentence = cleanContent.split('.')[0];
+    if (firstSentence.length > 80) {
+      return firstSentence.substring(0, 80) + '...';
+    }
+    return firstSentence.length > 0 ? firstSentence + '.' : cleanContent.substring(0, 80) + '...';
+  };
+
   return (
-    <div className="flex justify-start">
-      <div className="bg-gray-50 rounded-lg px-4 py-3 border border-gray-200 max-w-[85%] overflow-hidden">
-        <div className="prose prose-sm max-w-none overflow-hidden">
-          <ReactMarkdown
-            rehypePlugins={[rehypeRaw]}
-            components={{
-              code({ node, inline, className, children, ...props }) {
-                const match = /language-(\w+)/.exec(className || '');
-                // Commented out SyntaxHighlighter - just show plain code
-                // return !inline && match ? (
-                //   <div className="overflow-x-auto w-full" style={{ maxWidth: '100%' }}>
-                //     <SyntaxHighlighter
-                //       style={vscDarkPlus}
-                //       language={match[1]}
-                //       PreTag="div"
-                //       wrapLines={true}
-                //       wrapLongLines={true}
-                //       customStyle={{
-                //         margin: 0,
-                //         maxWidth: '100%',
-                //         overflowX: 'auto',
-                //         fontSize: '0.75rem',
-                //       }}
-                //       {...props}
-                //     >
-                //       {String(children).replace(/\n$/, '')}
-                //     </SyntaxHighlighter>
-                //   </div>
-                // ) : (
-                //   <code className={className} {...props}>
-                //     {children}
-                //   </code>
-                // );
-                return (
-                  <code className={className} {...props}>
-                    {children}
-                  </code>
-                );
-              },
-              pre: ({ node, ...props }) => (
-                <pre className="overflow-x-auto w-full bg-gray-100 p-2 rounded text-xs" style={{ maxWidth: '100%' }} {...props} />
-              ),
-            }}
-          >
-            {item.content}
-          </ReactMarkdown>
+    <div className="flex justify-start w-[800px]">
+      <div className="bg-gray-50 rounded-lg border border-gray-200 w-full min-w-0">
+        {/* Collapsible header */}
+        <div 
+          className="flex items-center justify-between px-4 py-2 cursor-pointer hover:bg-gray-100 transition-colors"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <div className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0"></div>
+            <span className="text-sm text-gray-600 truncate">
+              {getMessagePreview(item.content)}
+            </span>
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0 ml-2">
+            <span className="text-xs text-gray-400">
+              {format(new Date(item.timestamp), 'HH:mm:ss')}
+            </span>
+            <ChevronDown 
+              className={`w-4 h-4 text-gray-500 transition-transform ${
+                isExpanded ? '' : 'transform -rotate-90'
+              }`} 
+            />
+          </div>
         </div>
-        <span className="text-xs text-gray-400 mt-2 block">
-          {format(new Date(item.timestamp), 'HH:mm:ss')}
-        </span>
+        
+        {/* Collapsible content */}
+        {isExpanded && (
+          <div className="px-4 py-3 border-t border-gray-200">
+            <div className="prose prose-sm max-w-none break-words">
+              <ReactMarkdown
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  code({ node, inline, className, children, ...props }) {
+                    const match = /language-(\w+)/.exec(className || '');
+
+                    return (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                  pre: ({ node, ...props }) => (
+                    <pre className="overflow-x-auto w-full bg-gray-100 p-2 rounded text-xs" style={{ maxWidth: '100%' }} {...props} />
+                  ),
+                }}
+              >
+                {item.content}
+              </ReactMarkdown>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
