@@ -5,6 +5,8 @@ import rehypeRaw from 'rehype-raw';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import SmartVisualization from './SmartVisualization';
+import CleanMessageDisplay from './CleanMessageDisplay';
+import { hasTechnicalDetails } from '../utils/messageParser';
 
 interface MessageRendererProps {
     messages: any[];

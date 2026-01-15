@@ -19,11 +19,11 @@ interface ConversationMessage {
 
 export default function ObservabilityView({ logs, toolUses }: ObservabilityViewProps) {
   const { tasks, refreshTasks } = useTasks();
-  
+  console.log('tasks :::::', tasks)
   // Refresh tasks when component mounts or when logs change (indicating new activity)
   useEffect(() => {
     // #region agent log
-//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:22',message:'ObservabilityView mounted, refreshing tasks',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:22', message: 'ObservabilityView mounted, refreshing tasks', data: {}, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'E' }) }).catch(() => { });
     // #endregion
     refreshTasks();
   }, [refreshTasks]);
@@ -34,18 +34,18 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
 
   // #region agent log
   useEffect(() => {
-//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:21',message:'ObservabilityView rendered',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id),logsKeys:Object.keys(logs),toolUsesKeys:Object.keys(toolUses)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:21', message: 'ObservabilityView rendered', data: { tasksLength: tasks.length, taskIds: tasks.map(t => t.id), logsKeys: Object.keys(logs), toolUsesKeys: Object.keys(toolUses) }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'A' }) }).catch(() => { });
   }, [tasks, logs, toolUses]);
   // #endregion
 
   // Fetch conversation history for all tasks
   useEffect(() => {
     // #region agent log
-//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:28',message:'useEffect triggered for conversation history',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:28', message: 'useEffect triggered for conversation history', data: { tasksLength: tasks.length, taskIds: tasks.map(t => t.id) }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'A' }) }).catch(() => { });
     // #endregion
     const fetchConversationHistory = async () => {
       // #region agent log
-//       fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:29',message:'fetchConversationHistory started',data:{tasksCount:tasks.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+      fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:29', message: 'fetchConversationHistory started', data: { tasksCount: tasks.length }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'A' }) }).catch(() => { });
       // #endregion
       for (const task of tasks) {
         // Only fetch if we haven't already fetched it
@@ -54,11 +54,11 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
           setLoadingHistory(prev => ({ ...prev, [task.id]: true }));
           try {
             // #region agent log
-//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:36',message:'Calling getConversationHistory',data:{taskId:task.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:36', message: 'Calling getConversationHistory', data: { taskId: task.id }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
             // #endregion
             const response = await apiService.getConversationHistory(task.id);
             // #region agent log
-//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:37',message:'getConversationHistory response received',data:{taskId:task.id,success:response.success,messagesCount:Array.isArray(response.messages)?response.messages.length:0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:37', message: 'getConversationHistory response received', data: { taskId: task.id, success: response.success, messagesCount: Array.isArray(response.messages) ? response.messages.length : 0 }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
             // #endregion
             if (response.success && Array.isArray(response.messages)) {
               // Sort messages by timestamp (ts field) or by index if no timestamp
@@ -69,13 +69,13 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
               });
               setConversationHistory(prev => ({ ...prev, [task.id]: sortedMessages }));
               // #region agent log
-//               fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:44',message:'Conversation history set in state',data:{taskId:task.id,messagesCount:sortedMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+              fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:44', message: 'Conversation history set in state', data: { taskId: task.id, messagesCount: sortedMessages.length }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
               // #endregion
             }
           } catch (error: any) {
             console.error(`Failed to fetch conversation history for task ${task.id}:`, error);
             // #region agent log
-//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:47',message:'getConversationHistory error',data:{taskId:task.id,error:error?.message||String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:47', message: 'getConversationHistory error', data: { taskId: task.id, error: error?.message || String(error) }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
             // #endregion
             // Remove from fetched set so we can retry
             fetchedTasksRef.current.delete(task.id);
@@ -142,14 +142,14 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
       lastActivity: taskLogs.length > 0
         ? taskLogs[taskLogs.length - 1]?.timestamp || Date.now()
         : taskToolUses.length > 0
-        ? taskToolUses[taskToolUses.length - 1]?.timestamp || Date.now()
-        : null,
+          ? taskToolUses[taskToolUses.length - 1]?.timestamp || Date.now()
+          : null,
     };
   };
 
   return (
     <div className="h-full overflow-y-auto p-4 space-y-6">
-      <div>
+      {/* <div>
         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <Activity className="w-5 h-5" />
           Task Performance
@@ -235,13 +235,13 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
             })}
           </div>
         )}
-      </div>
+      </div> */}
 
       <div className="border-t border-gray-200 pt-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
             <MessageSquare className="w-5 h-5" />
-            API Conversation History
+            Conversation History
           </h3>
           <button
             onClick={() => {
@@ -266,7 +266,7 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
               Note: Conversation history is stored in <code className="bg-gray-100 px-1 rounded">.flashbuild/tasks/&lt;taskId&gt;/api_conversation_history.json</code>
             </p>
             {/* #region agent log */}
-            {(() => { fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:214',message:'Rendering no tasks message',data:{tasksLength:tasks.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{}); return null; })()}
+            {(() => { fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'ObservabilityView.tsx:214', message: 'Rendering no tasks message', data: { tasksLength: tasks.length }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'A' }) }).catch(() => { }); return null; })()}
             {/* #endregion */}
           </div>
         ) : (
@@ -292,9 +292,10 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
                         <ChevronRight className="w-4 h-4 text-gray-500" />
                       )}
                       <div className="text-left">
-                        <div className="text-sm font-medium text-gray-900">
-                          Task: {task.task || task.id.substring(0, 12)}...
+                        <div className="text-sm font-medium text-gray-900 truncate">
+                          Task: {(task.task || task.id).length > 50 ? (task.task || task.id).substring(0, 50) + '...' : (task.task || task.id)}
                         </div>
+
                         <div className="text-xs text-gray-500 mt-1">
                           {history.length} message{history.length !== 1 ? 's' : ''}
                           {task.timestamp && (
@@ -335,23 +336,21 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
                           return (
                             <div
                               key={message.id || index}
-                              className={`rounded-lg p-3 border ${
-                                isUser
+                              className={`rounded-lg p-3 border ${isUser
                                   ? 'bg-blue-50 border-blue-200'
                                   : isAssistant
-                                  ? 'bg-gray-50 border-gray-200'
-                                  : 'bg-white border-gray-200'
-                              }`}
+                                    ? 'bg-gray-50 border-gray-200'
+                                    : 'bg-white border-gray-200'
+                                }`}
                             >
                               <div className="flex items-center justify-between mb-2">
                                 <span
-                                  className={`text-xs font-medium px-2 py-1 rounded ${
-                                    isUser
+                                  className={`text-xs font-medium px-2 py-1 rounded ${isUser
                                       ? 'bg-blue-100 text-blue-800'
                                       : isAssistant
-                                      ? 'bg-gray-200 text-gray-800'
-                                      : 'bg-gray-100 text-gray-700'
-                                  }`}
+                                        ? 'bg-gray-200 text-gray-800'
+                                        : 'bg-gray-100 text-gray-700'
+                                    }`}
                                 >
                                   {isUser ? 'User' : isAssistant ? 'Assistant' : message.role || 'Unknown'}
                                 </span>
