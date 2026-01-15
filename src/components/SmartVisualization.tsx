@@ -150,8 +150,8 @@ export default function SmartVisualization({ data, autoAnalyze = true }: SmartVi
           <div className="px-4 py-2 bg-gray-100 border-b border-gray-200">
             <h4 className="text-xs font-medium text-gray-700">Original Data</h4>
           </div>
-          <div className="p-4">
-            <pre className="text-xs text-gray-700 whitespace-pre-wrap font-mono max-h-96 overflow-y-auto">
+          <div className="p-4 overflow-x-auto">
+            <pre className="text-xs text-gray-700 whitespace-pre-wrap break-words font-mono max-h-96 overflow-y-auto max-w-full">
               {data}
             </pre>
           </div>

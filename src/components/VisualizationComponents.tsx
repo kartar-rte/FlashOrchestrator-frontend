@@ -357,9 +357,19 @@ export function TextVisualization({ config }: VisualizationProps) {
           )}
         </div>
       )}
-      <div className="p-4">
-        <div className="prose prose-sm max-w-none">
-          <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+      <div className="p-4 overflow-x-auto">
+        <div className="prose prose-sm max-w-none break-words">
+          <ReactMarkdown 
+            rehypePlugins={[rehypeRaw]}
+            components={{
+              pre: ({ node, ...props }) => (
+                <pre className="overflow-x-auto max-w-full" {...props} />
+              ),
+              code: ({ node, inline, ...props }) => (
+                <code className={inline ? '' : 'block overflow-x-auto max-w-full'} {...props} />
+              ),
+            }}
+          >
             {rawData || String(config.data || '')}
           </ReactMarkdown>
         </div>

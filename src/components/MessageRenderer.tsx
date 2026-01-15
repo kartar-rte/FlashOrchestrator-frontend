@@ -137,8 +137,8 @@ function SearchResultsBlock({ content }: { content: string }) {
             </button>
 
             {isExpanded && (
-                <div className="p-4">
-                    <div className="text-sm text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border border-gray-200 max-h-96 overflow-y-auto">
+                <div className="p-4 overflow-x-auto">
+                    <div className="text-sm text-gray-700 whitespace-pre-wrap break-words font-mono bg-gray-50 p-3 rounded border border-gray-200 max-h-96 overflow-y-auto max-w-full">
                         {typeof results === 'object' ? JSON.stringify(results, null, 2) : content}
                     </div>
                 </div>
@@ -153,28 +153,37 @@ function TextMessageBlock({ text }: { text: string }) {
 
     return (
         <div className="border border-gray-200 rounded-lg overflow-hidden bg-white shadow-sm">
-            <div className="p-4">
-                <div className="prose prose-sm max-w-none">
+            <div className="p-4 overflow-x-auto">
+                <div className="prose prose-sm max-w-none break-words">
                     <ReactMarkdown
                         rehypePlugins={[rehypeRaw]}
                         components={{
                             code({ node, inline, className, children, ...props }: any) {
                                 const match = /language-(\w+)/.exec(className || '');
                                 return !inline && match ? (
-                                    <SyntaxHighlighter
-                                        style={vscDarkPlus}
-                                        language={match[1]}
-                                        PreTag="div"
-                                        {...props}
-                                    >
-                                        {String(children).replace(/\n$/, '')}
-                                    </SyntaxHighlighter>
+                                    <div className="overflow-x-auto max-w-full">
+                                        <SyntaxHighlighter
+                                            style={vscDarkPlus}
+                                            language={match[1]}
+                                            PreTag="div"
+                                            customStyle={{
+                                                maxWidth: '100%',
+                                                overflowX: 'auto',
+                                            }}
+                                            {...props}
+                                        >
+                                            {String(children).replace(/\n$/, '')}
+                                        </SyntaxHighlighter>
+                                    </div>
                                 ) : (
                                     <code className={className} {...props}>
                                         {children}
                                     </code>
                                 );
                             },
+                            pre: ({ node, ...props }) => (
+                                <pre className="overflow-x-auto max-w-full" {...props} />
+                            ),
                         }}
                     >
                         {text}
@@ -236,8 +245,8 @@ function ToolMessageBlock({ tool, content }: { tool: string; content: any }) {
             </button>
 
             {isExpanded && (
-                <div className="p-4">
-                    <pre className="text-xs text-gray-700 whitespace-pre-wrap font-mono bg-gray-50 p-3 rounded border border-gray-200 max-h-96 overflow-y-auto">
+                <div className="p-4 overflow-x-auto">
+                    <pre className="text-xs text-gray-700 whitespace-pre-wrap break-words font-mono bg-gray-50 p-3 rounded border border-gray-200 max-h-96 overflow-y-auto max-w-full">
                         {typeof content === 'object' ? JSON.stringify(content, null, 2) : String(content)}
                     </pre>
                 </div>
