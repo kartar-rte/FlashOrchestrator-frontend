@@ -1,0 +1,208 @@
+export interface QueryEnhancementConfig {
+  enabled: boolean;
+  instructions: string; // Custom instructions for this use case
+  databaseEnabled: boolean;
+  fileSearchEnabled: boolean;
+  skipIfInMemory: boolean; // Only skip tools if answer already in conversation
+}
+
+const STORAGE_KEY = 'query_enhancement_config'; // Legacy - kept for backward compatibility
+
+const DEFAULT_INSTRUCTIONS = `You MUST follow these steps in order:
+
+1. DATABASE EXPLORATION (REQUIRED):
+   - Use get_database_schema to discover available tables and their structure
+   - Identify which tables contain data relevant to the user's query
+   - Use create_sql_query to generate SQL queries based on the user's question
+   - CRITICAL: Immediately after create_sql_query returns a SQL query, you MUST call execute_sql_query with that query to get the actual data. Do NOT stop after creating the query - you must execute it.
+   - Extract key metrics, numbers, and structured insights from the database results
+
+2. FILE EXPLORATION (REQUIRED):
+   - Use search_files to find relevant documents, articles, or content related to the query
+   - Use read_file to read the content of relevant files
+   - Extract insights, best practices, and contextual information from the files
+
+3. SYNTHESIS (REQUIRED):
+   - Combine insights from both database (structured data) and files (unstructured content)
+   - Frame your response based on actual data from the database
+   - Enhance your response with context and best practices from the files
+   - Present a comprehensive answer that leverages both data sources
+
+IMPORTANT:
+- DO NOT skip these steps unless the answer is already present in the conversation history
+- Always use tools even if you think you know the answer - the data may have changed
+- If database or file search fails, note it in your response but continue with available sources
+- The workflow is: get_database_schema → create_sql_query → execute_sql_query (IMMEDIATELY) → search_files → read_file → synthesize`;
+
+export function loadEnhancementConfig(): QueryEnhancementConfig {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      return {
+        enabled: parsed.enabled ?? true,
+        instructions: parsed.instructions ?? DEFAULT_INSTRUCTIONS,
+        databaseEnabled: parsed.databaseEnabled ?? true,
+        fileSearchEnabled: parsed.fileSearchEnabled ?? true,
+        skipIfInMemory: parsed.skipIfInMemory ?? true,
+      };
+    }
+  } catch (error) {
+    console.error('Failed to load enhancement config:', error);
+  }
+  return {
+    enabled: true,
+    instructions: DEFAULT_INSTRUCTIONS,
+    databaseEnabled: true,
+    fileSearchEnabled: true,
+    skipIfInMemory: true,
+  };
+}
+
+export function saveEnhancementConfig(config: QueryEnhancementConfig): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
+  } catch (error) {
+    console.error('Failed to save enhancement config:', error);
+  }
+}
+
+/**
+ * Check if the answer might already be in conversation history
+ * This is a simple heuristic - in practice, the LLM should check its own memory
+ */
+function mightHaveAnswerInMemory(userQuery: string): boolean {
+  // This is a placeholder - in practice, you'd check conversation history
+  // For now, we'll let the LLM decide based on the instruction
+  return false;
+}
+
+import { getUseCaseById, getSelectedUseCase } from './useCaseManager';
+
+/**
+ * Enhance user query with instruction-driven approach
+ * @param userQuery - The user's query
+ * @param useCaseId - Optional use case ID to use. If not provided, uses selected use case
+ */
+export function enhanceQuery(
+  userQuery: string,
+  useCaseId?: string
+): string {
+  // Load use case
+  const useCase = useCaseId 
+    ? (getUseCaseById(useCaseId) || getSelectedUseCase())
+    : getSelectedUseCase();
+  
+  // Convert use case to config format
+  const config: QueryEnhancementConfig = {
+    enabled: true, // Always enabled when using use cases
+    instructions: useCase.instructions,
+    databaseEnabled: useCase.databaseEnabled,
+    fileSearchEnabled: useCase.fileSearchEnabled,
+    skipIfInMemory: useCase.skipIfInMemory,
+  };
+  
+  return enhanceQueryWithConfig(userQuery, config);
+}
+
+/**
+ * Enhance user query with explicit config (legacy support)
+ */
+export function enhanceQueryWithConfig(
+  userQuery: string,
+  config: QueryEnhancementConfig
+): string {
+  // If enhancement is disabled, return original
+  if (!config.enabled) {
+    return userQuery;
+  }
+
+  // Check if we should skip (answer in memory)
+  if (config.skipIfInMemory && mightHaveAnswerInMemory(userQuery)) {
+    // Still add a reminder to verify with tools
+    return `${userQuery}
+
+<reminder>
+While you may have discussed this topic before, please verify current data using database and file tools to ensure accuracy.
+</reminder>`;
+  }
+
+  // Build enhancement based on enabled sources
+  const sourceInstructions: string[] = [];
+  
+  if (config.databaseEnabled) {
+    sourceInstructions.push(`
+DATABASE TOOLS (REQUIRED):
+- get_database_schema: Discover available tables
+- create_sql_query: Generate SQL based on user's question
+- execute_sql_query: Retrieve actual data`);
+  }
+
+  if (config.fileSearchEnabled) {
+    sourceInstructions.push(`
+FILE TOOLS (REQUIRED):
+- search_files: Find relevant documents
+- read_file: Read file content`);
+  }
+
+  const enhancement = `
+
+<task_instructions>
+${config.instructions}
+
+${sourceInstructions.join('\n')}
+
+WORKFLOW (MUST FOLLOW IN ORDER):
+1. Start with get_database_schema to understand available data
+2. Use create_sql_query to generate SQL based on the user's question
+3. IMMEDIATELY call execute_sql_query with the SQL query from step 2 - do not wait or skip this step
+4. Use search_files to find relevant documents
+5. Read relevant files using read_file
+6. Synthesize all findings into a comprehensive response
+
+CRITICAL: After create_sql_query returns a SQL query, you MUST immediately call execute_sql_query in the next tool call. The SQL query is useless without execution - you need the actual data to answer the user's question.
+
+DO NOT provide answers without using these tools first, unless the information is already present in the conversation history above.
+</task_instructions>`;
+
+  return userQuery + enhancement;
+}
+
+/**
+ * Create custom instructions for specific use cases
+ */
+export const USE_CASE_TEMPLATES = {
+  dataAnalysis: {
+    name: 'Data Analysis',
+    instructions: `You are analyzing data to answer the user's question. You MUST:
+1. Use get_database_schema to discover available tables
+2. Use create_sql_query to generate SQL queries, then IMMEDIATELY execute them with execute_sql_query
+3. Search files for relevant analysis frameworks and methodologies
+4. Combine quantitative data with qualitative insights`,
+  },
+  strategicPlanning: {
+    name: 'Strategic Planning',
+    instructions: `You are helping with strategic planning. You MUST:
+1. Use get_database_schema to discover available tables
+2. Use create_sql_query to generate SQL queries, then IMMEDIATELY execute them with execute_sql_query
+3. Search files for best practices, case studies, and strategic frameworks
+4. Combine data-driven insights with expert recommendations`,
+  },
+  reporting: {
+    name: 'Reporting',
+    instructions: `You are creating a report. You MUST:
+1. Use get_database_schema to discover available tables
+2. Use create_sql_query to generate SQL queries, then IMMEDIATELY execute them with execute_sql_query
+3. Search files for report templates, formatting guidelines, and context
+4. Structure the report with data-backed findings and supporting documentation`,
+  },
+  research: {
+    name: 'Research',
+    instructions: `You are conducting research. You MUST:
+1. Use get_database_schema to discover available tables
+2. Use create_sql_query to generate SQL queries, then IMMEDIATELY execute them with execute_sql_query
+3. Search files for research papers, articles, and documentation
+4. Synthesize findings from both structured and unstructured sources`,
+  },
+};
+
