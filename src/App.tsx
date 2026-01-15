@@ -56,13 +56,13 @@ function App() {
     if (!selectedTaskId) return;
     
     // #region agent log
-    fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:55',message:'History load effect triggered',data:{selectedTaskId,hasLoadingState:!!loadingHistory[selectedTaskId],hasLoadedHistory:!!loadedHistory[selectedTaskId],hasWebSocketMessages:messages.some(msg => msg.taskId === selectedTaskId)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:55',message:'History load effect triggered',data:{selectedTaskId,hasLoadingState:!!loadingHistory[selectedTaskId],hasLoadedHistory:!!loadedHistory[selectedTaskId],hasWebSocketMessages:messages.some(msg => msg.taskId === selectedTaskId)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
     // #endregion
     
     // Skip if currently loading
     if (loadingHistory[selectedTaskId]) {
       // #region agent log
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:59',message:'Skipping - already loading',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:59',message:'Skipping - already loading',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
       // #endregion
       return;
     }
@@ -71,7 +71,7 @@ function App() {
     const hasWebSocketMessages = messages.some(msg => msg.taskId === selectedTaskId);
     if (hasWebSocketMessages && !loadedHistory[selectedTaskId]) {
       // #region agent log
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:65',message:'Skipping - active task with WebSocket messages',data:{selectedTaskId,webSocketMessageCount:messages.filter(msg => msg.taskId === selectedTaskId).length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:65',message:'Skipping - active task with WebSocket messages',data:{selectedTaskId,webSocketMessageCount:messages.filter(msg => msg.taskId === selectedTaskId).length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
       // #endregion
       // Active task - don't load history, use WebSocket messages
       return;
@@ -80,7 +80,7 @@ function App() {
     // If we already loaded history for this task, don't reload
     if (loadedHistory[selectedTaskId]) {
       // #region agent log
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:69',message:'Skipping - history already loaded',data:{selectedTaskId,loadedMessageCount:loadedHistory[selectedTaskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:69',message:'Skipping - history already loaded',data:{selectedTaskId,loadedMessageCount:loadedHistory[selectedTaskId]?.length || 0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
       // #endregion
       return;
     }
@@ -88,13 +88,13 @@ function App() {
     // Load conversation history for old/completed tasks
     const loadHistory = async () => {
       // #region agent log
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:73',message:'Starting history load',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:73',message:'Starting history load',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
       // #endregion
       setLoadingHistory(prev => ({ ...prev, [selectedTaskId]: true }));
       try {
         const response = await apiService.getConversationHistory(selectedTaskId);
         // #region agent log
-        fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:76',message:'API response received',data:{selectedTaskId,success:response.success,messageCount:response.messages?.length || 0,isArray:Array.isArray(response.messages)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//         fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:76',message:'API response received',data:{selectedTaskId,success:response.success,messageCount:response.messages?.length || 0,isArray:Array.isArray(response.messages)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
         if (response.success && response.messages && Array.isArray(response.messages)) {
           // Convert ApiMessage format to WebSocketMessage format
@@ -215,29 +215,29 @@ function App() {
           });
           
           // #region agent log
-          fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:185',message:'Messages converted and filtered',data:{selectedTaskId,totalApiMessages:response.messages.length,convertedCount:convertedMessages.length,filteredCount:filteredMessages.length,completionResults:filteredMessages.filter(m => m.data?.message?.say === 'completion_result').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+//           fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:185',message:'Messages converted and filtered',data:{selectedTaskId,totalApiMessages:response.messages.length,convertedCount:convertedMessages.length,filteredCount:filteredMessages.length,completionResults:filteredMessages.filter(m => m.data?.message?.say === 'completion_result').length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
           // #endregion
           
           setLoadedHistory(prev => ({ ...prev, [selectedTaskId]: filteredMessages }));
           // #region agent log
-          fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:189',message:'History state updated',data:{selectedTaskId,messageCount:filteredMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+//           fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:189',message:'History state updated',data:{selectedTaskId,messageCount:filteredMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
           // #endregion
         } else {
           // #region agent log
-          fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:192',message:'API response invalid',data:{selectedTaskId,success:response.success,hasMessages:!!response.messages,isArray:Array.isArray(response.messages)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//           fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:192',message:'API response invalid',data:{selectedTaskId,success:response.success,hasMessages:!!response.messages,isArray:Array.isArray(response.messages)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
           // #endregion
         }
       } catch (error: any) {
         console.error('Failed to load conversation history:', error);
         // #region agent log
-        fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:197',message:'History load error',data:{selectedTaskId,error:error?.message || String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//         fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:197',message:'History load error',data:{selectedTaskId,error:error?.message || String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
         // #endregion
       } finally {
         setLoadingHistory(prev => {
           const updated = { ...prev };
           delete updated[selectedTaskId];
           // #region agent log
-          fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:203',message:'Loading state cleared',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
+//           fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:203',message:'Loading state cleared',data:{selectedTaskId},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'B'})}).catch(()=>{});
           // #endregion
           return updated;
         });
@@ -259,22 +259,22 @@ function App() {
       if (!hasWebSocketForTask) {
         merged.push(...loadedHistory[selectedTaskId]);
         // #region agent log
-        fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:214',message:'Merged loaded history',data:{selectedTaskId,webSocketCount:messages.length,loadedHistoryCount:loadedHistory[selectedTaskId].length,mergedCount:merged.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+//         fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:214',message:'Merged loaded history',data:{selectedTaskId,webSocketCount:messages.length,loadedHistoryCount:loadedHistory[selectedTaskId].length,mergedCount:merged.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
         // #endregion
       } else {
         // #region agent log
-        fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:217',message:'Using WebSocket messages instead of history',data:{selectedTaskId,webSocketCount:messages.length,loadedHistoryCount:loadedHistory[selectedTaskId].length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+//         fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:217',message:'Using WebSocket messages instead of history',data:{selectedTaskId,webSocketCount:messages.length,loadedHistoryCount:loadedHistory[selectedTaskId].length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
         // #endregion
       }
     } else {
       // #region agent log
-      fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:221',message:'No loaded history to merge',data:{selectedTaskId,hasSelectedTaskId:!!selectedTaskId,hasLoadedHistory:!!(selectedTaskId && loadedHistory[selectedTaskId]),webSocketCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:221',message:'No loaded history to merge',data:{selectedTaskId,hasSelectedTaskId:!!selectedTaskId,hasLoadedHistory:!!(selectedTaskId && loadedHistory[selectedTaskId]),webSocketCount:messages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
       // #endregion
     }
     
     // #region agent log
     const taskMessages = merged.filter(msg => msg.taskId === selectedTaskId || !msg.taskId);
-    fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:227',message:'allMessages computed',data:{selectedTaskId,totalMerged:merged.length,taskMessagesCount:taskMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
+//     fetch('http://127.0.0.1:7245/ingest/866b450a-a0a7-4005-991c-f22cacb94ff5',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'App.tsx:227',message:'allMessages computed',data:{selectedTaskId,totalMerged:merged.length,taskMessagesCount:taskMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'D'})}).catch(()=>{});
     // #endregion
     
     return merged;
