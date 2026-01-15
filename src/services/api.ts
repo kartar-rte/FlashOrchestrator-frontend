@@ -71,11 +71,11 @@ class ApiService {
 
   async getTasks(): Promise<{ success: boolean; tasks: Task[] }> {
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:72', message: 'getTasks called', data: {}, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'B' }) }).catch(() => { });
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:72', message: 'getTasks called', data: {}, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'B' }) }).catch(() => { });
     // #endregion
     const response = await this.api.get('/api/tasks');
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:74', message: 'getTasks response', data: { success: response.data.success, tasksCount: response.data.tasks?.length || 0, taskIds: response.data.tasks?.map((t: Task) => t.id) || [] }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'B' }) }).catch(() => { });
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:74', message: 'getTasks response', data: { success: response.data.success, tasksCount: response.data.tasks?.length || 0, taskIds: response.data.tasks?.map((t: Task) => t.id) || [] }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'B' }) }).catch(() => { });
     // #endregion
     return response.data;
   }
@@ -87,11 +87,11 @@ class ApiService {
 
   async getConversationHistory(taskId: string): Promise<{ success: boolean; messages: any[] }> {
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:77', message: 'getConversationHistory called', data: { taskId }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:77', message: 'getConversationHistory called', data: { taskId }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
     // #endregion
     const response = await this.api.get(`/api/task/${taskId}/conversation-history`);
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:79', message: 'getConversationHistory response', data: { taskId, success: response.data.success, messagesCount: response.data.messages?.length || 0 }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ location: 'api.ts:79', message: 'getConversationHistory response', data: { taskId, success: response.data.success, messagesCount: response.data.messages?.length || 0 }, timestamp: Date.now(), sessionId: 'debug-session', runId: 'run1', hypothesisId: 'C' }) }).catch(() => { });
     // #endregion
     return response.data;
   }

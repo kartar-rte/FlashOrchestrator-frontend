@@ -23,7 +23,7 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
   // Refresh tasks when component mounts or when logs change (indicating new activity)
   useEffect(() => {
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:22',message:'ObservabilityView mounted, refreshing tasks',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:22',message:'ObservabilityView mounted, refreshing tasks',data:{},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'E'})}).catch(()=>{});
     // #endregion
     refreshTasks();
   }, [refreshTasks]);
@@ -34,18 +34,18 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
 
   // #region agent log
   useEffect(() => {
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:21',message:'ObservabilityView rendered',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id),logsKeys:Object.keys(logs),toolUsesKeys:Object.keys(toolUses)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:21',message:'ObservabilityView rendered',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id),logsKeys:Object.keys(logs),toolUsesKeys:Object.keys(toolUses)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
   }, [tasks, logs, toolUses]);
   // #endregion
 
   // Fetch conversation history for all tasks
   useEffect(() => {
     // #region agent log
-    fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:28',message:'useEffect triggered for conversation history',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//     fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:28',message:'useEffect triggered for conversation history',data:{tasksLength:tasks.length,taskIds:tasks.map(t=>t.id)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
     // #endregion
     const fetchConversationHistory = async () => {
       // #region agent log
-      fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:29',message:'fetchConversationHistory started',data:{tasksCount:tasks.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
+//       fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:29',message:'fetchConversationHistory started',data:{tasksCount:tasks.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'A'})}).catch(()=>{});
       // #endregion
       for (const task of tasks) {
         // Only fetch if we haven't already fetched it
@@ -54,11 +54,11 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
           setLoadingHistory(prev => ({ ...prev, [task.id]: true }));
           try {
             // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:36',message:'Calling getConversationHistory',data:{taskId:task.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:36',message:'Calling getConversationHistory',data:{taskId:task.id},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
             // #endregion
             const response = await apiService.getConversationHistory(task.id);
             // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:37',message:'getConversationHistory response received',data:{taskId:task.id,success:response.success,messagesCount:Array.isArray(response.messages)?response.messages.length:0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:37',message:'getConversationHistory response received',data:{taskId:task.id,success:response.success,messagesCount:Array.isArray(response.messages)?response.messages.length:0},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
             // #endregion
             if (response.success && Array.isArray(response.messages)) {
               // Sort messages by timestamp (ts field) or by index if no timestamp
@@ -69,13 +69,13 @@ export default function ObservabilityView({ logs, toolUses }: ObservabilityViewP
               });
               setConversationHistory(prev => ({ ...prev, [task.id]: sortedMessages }));
               // #region agent log
-              fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:44',message:'Conversation history set in state',data:{taskId:task.id,messagesCount:sortedMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+//               fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:44',message:'Conversation history set in state',data:{taskId:task.id,messagesCount:sortedMessages.length},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
               // #endregion
             }
           } catch (error: any) {
             console.error(`Failed to fetch conversation history for task ${task.id}:`, error);
             // #region agent log
-            fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:47',message:'getConversationHistory error',data:{taskId:task.id,error:error?.message||String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
+//             fetch('http://127.0.0.1:7244/ingest/903abbe4-f075-4569-9253-5f311dc90006',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({location:'ObservabilityView.tsx:47',message:'getConversationHistory error',data:{taskId:task.id,error:error?.message||String(error)},timestamp:Date.now(),sessionId:'debug-session',runId:'run1',hypothesisId:'C'})}).catch(()=>{});
             // #endregion
             // Remove from fetched set so we can retry
             fetchedTasksRef.current.delete(task.id);
